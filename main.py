@@ -1,41 +1,35 @@
-# Input credit card number
-credit_card = input("Enter your credit card number : ")
+def is_valid_credit_card_number(card_number):
+    # Get the checking number and the credit card number without the checking number
+    checking_number = int(card_number[-1])
+    credit_card_number = card_number[:-1]
 
-# Checking number, last digit for our credit card
-checking_number = credit_card[-1]
-# Credit card without last character
-new_string = credit_card[:-1]
+    # Reverse the credit card number and convert it into a list of integers
+    reversed_card_number = [int(x) for x in reversed(credit_card_number)]
 
-# Reverse the new string without the checking number
-reverse_string = new_string[::-1]
-# convert the reversed string into int data types so we can loop
-num_list = [int(x) for x in reverse_string]
-
-
-# For loop to take even numbers and double them,
-# if results are greater than 9 , subtract 9 from those numbers
-even_sum = 0
-for even_num in num_list:
-    # if even_num is even
-    if even_num % 2 == 0:
-        # even_num = even_num + even_num
-        even_num += even_num
-        # if even_num is greater than 9
-        if even_num > 9:
-            # even_num minus 9
-            even_num - 9
-            even_sum += even_num
-        # else if even number is less than 9, we can add the numbers untouched to even_sum
+    # Double every other digit in the reversed credit card number
+    doubled_digits = []
+    for i in range(len(reversed_card_number)):
+        if i % 2 == 0:
+            doubled_digit = reversed_card_number[i] * 2
+            if doubled_digit > 9:
+                doubled_digit -= 9
+            doubled_digits.append(doubled_digit)
         else:
-            even_sum += even_num
+            doubled_digits.append(reversed_card_number[i])
 
-# add the sum of even_num and the checking number together
-final_num = even_sum + int(checking_number)
-print(final_num)
+    # Sum up all the digits in the modified credit card number
+    modified_sum = sum(doubled_digits)
 
-# final iteration, if number is divisble by 10, print card valid
-# else print card is not valid.
-if final_num % 10:
-    print("Credit card number is valid")
-else:
-    print("Credit Card Number is not valid")
+    # Add the checking number back to the sum
+    total_sum = modified_sum + checking_number
+
+    # Check if the final sum is divisible by 10
+    if total_sum % 10 == 0:
+        print("Credit card number is valid")
+    else:
+        print("Credit card number is not valid")
+
+
+#main
+card_number = input("Enter your credit card number: ")
+is_valid_credit_card_number(card_number)
